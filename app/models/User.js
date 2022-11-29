@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 
 const User = new Schema({
   username: {
@@ -74,7 +74,7 @@ const User = new Schema({
 User.pre("save", async function (next) {
   const user = this;
   if (user.isModified("password")) {
-    user.password = bcrypt.hashSync(user.password, 10);
+    user.password = bcryptjs.hashSync(user.password, 10);
   }
   next();
 });

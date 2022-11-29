@@ -3,7 +3,7 @@ import AuthService from "../Service/AuthService.js";
 import mongoose from "mongoose";
 
 import * as randToken from "rand-token";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 const AutherController = {
   getAllUser: async (req, res, next) => {
     try {
@@ -31,7 +31,7 @@ const AutherController = {
       return res.status(404).send("Tên đăng nhập không tồn tại!");
     }
     // So sánh password
-    const isPasswordValid = bcrypt.compareSync(password, user.password);
+    const isPasswordValid = bcryptjs.compareSync(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).send("Mật khẩu không chính xác!");
     }
@@ -224,7 +224,7 @@ const AutherController = {
   },
   resetPassword: (req, res) => {
     const username = req.body.username;
-    const hashPassword = bcrypt.hashSync(req.body.password, 10);
+    const hashPassword = bcryptjs.hashSync(req.body.password, 10);
     UserModel.updateOne({ username }, { password: hashPassword })
       .then(() => {
         return res
@@ -243,11 +243,11 @@ const AutherController = {
       return res.status(404).send("Tên đăng nhập không tồn tại!");
     }
     // So sánh password
-    const isPasswordValid = bcrypt.compareSync(oldPassword, user.password);
+    const isPasswordValid = bcryptjs.compareSync(oldPassword, user.password);
     if (!isPasswordValid) {
       return res.status(401).send("Mật khẩu không chính xác!");
     }
-    const hashPassword = bcrypt.hashSync(req.body.password, 10);
+    const hashPassword = bcryptjs.hashSync(req.body.password, 10);
     UserModel.updateOne({ username }, { password: hashPassword })
       .then(() => {
         return res

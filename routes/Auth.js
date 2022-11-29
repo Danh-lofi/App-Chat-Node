@@ -3,6 +3,7 @@ import UserController from "../app/controllers/AuthController.js";
 import authMiddleware from "../app/middleware/authMiddleware.js";
 
 const routerAuth = express.Router();
+routerAuth.get("/", UserController.getAllUser);
 routerAuth.get("/getAllUser", UserController.getAllUser);
 routerAuth.post("/login", UserController.login);
 routerAuth.post("/register", UserController.register);

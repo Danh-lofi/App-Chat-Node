@@ -27,6 +27,35 @@ const RequestFriendController = {
     next();
     // Gửi chuyển cho userController response cho client
   },
+  getListRequestApp: async (req, res, next) => {
+    console.log("Get List Requets: ");
+
+    const id = req.params.id;
+    console.log("id nguoi nhan: " + id);
+    const listRequest = await RequestFriendModel.find({
+      receiverId: mongoose.Types.ObjectId(id),
+    });
+    // List request
+
+    // Chuyển đổi list requets thành user
+    // Mảng chứa list id người gửi
+    const listReceiverId = [];
+    listRequest.forEach((request) => {
+      console.log("request: " + request._id);
+      console.log(request);
+      listReceiverId.push({
+        id: request.senderId,
+        idRequest: request._id.toString(),
+      });
+    });
+    console.log("Array List Requets: ");
+
+    console.log(listReceiverId);
+    req.listIdUser = listReceiverId;
+
+    next();
+    // Gửi chuyển cho userController response cho client
+  },
   acceptFriend: async (req, res) => {
     const idRequest = req.body.idRequest;
     console.log(idRequest);

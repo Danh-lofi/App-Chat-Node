@@ -254,12 +254,13 @@ const GroupChatController = {
       if (meId != groupChatAdminId) {
         await GroupChatModel.findOneAndUpdate(
           { _id: groupId },
-          { $pull: { memberChat: { id: meId } } }
+          { $pull: { memberChat: { id: meId.toString() } } }
         );
         await UserModel.findOneAndUpdate(
           { _id: meId },
           { $pull: { groups: { id: _groupId } } }
         );
+        res.status(201).send("roi thanh cong");
       }
     } catch (error) {
       console.log("loi");

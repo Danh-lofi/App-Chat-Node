@@ -6,13 +6,22 @@ import * as randToken from "rand-token";
 import bcryptjs from "bcryptjs";
 const AutherController = {
   getAllUser: async (req, res, next) => {
+    const { id } = req.params;
     try {
-      const users = await UserModel.find().select([
+      const users = await UserModel.find({
+        _id: { $nin: mongoose.Types.ObjectId(id) },
+      }).select([
         "_id",
         "username",
         "name",
+        "birthDate",
+        "gender",
+        "address",
+        "introducePersonal",
         "avatar",
         "coverImg",
+        "friends",
+        "groups",
       ]);
       return res.json({ users });
     } catch (ex) {
